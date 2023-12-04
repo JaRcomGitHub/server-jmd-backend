@@ -1,0 +1,1028 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "version": "0.0.1",
+    "title": "JaRcom PRO API 1.0",
+    "description": "JaRcom PRO back-end API"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    },
+    {
+      "url": "https://backend.jarcom.pro"
+    },
+    {
+      "url": "http://backend.jarcom.pro"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Users",
+      "description": "Users endpoints"
+    },
+    {
+      "name": "Notices",
+      "description": "Notices endpoints"
+    },
+    {
+      "name": "Pets",
+      "description": "Pets endpoints"
+    },
+    {
+      "name": "Other",
+      "description": "Other endpoints"
+    }
+  ],
+  "paths": {
+    "/users/signup": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "User registration",
+        "parameters": [],
+        "security": [],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignupRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created \"Successful operation\"",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignupAndLoginResponses"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request (one of the \"message\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "400",
+                  "type": "object",
+                  "example": [
+                    {
+                      "message": "Please, provide all required fiields"
+                    },
+                    {
+                      "message": "Email in use"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "User login",
+        "parameters": [],
+        "security": [],
+        "requestBody": {
+          "description": "Login object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK \"Successful operation\"",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignupAndLoginResponses"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request (one of the \"message\")",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "400",
+                  "type": "object",
+                  "example": [
+                    {
+                      "message": "Please, provide all required fields"
+                    },
+                    {
+                      "message": "Unable to set token"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "401",
+                  "type": "object",
+                  "example": {
+                    "message": "Email or password is wrong"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/edit": {
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "User edit",
+        "parameters": [],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "User object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserEditRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK \"Successful operation\"",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "200",
+                  "type": "object",
+                  "example": {
+                    "message": "Updated successfully"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/logout": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "User logout",
+        "parameters": [],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content \"Successful operation\""
+          }
+        }
+      }
+    },
+    "/notices/title": {
+      "get": {
+        "tags": [
+          "Notices"
+        ],
+        "summary": "Search ads by title",
+        "parameters": [
+          {
+            "name": "title",
+            "in": "query",
+            "description": "Search by title",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "cat"
+            }
+          }
+        ],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "OK \"Successful operation\"",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NoticeResponses"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notices/category": {
+      "get": {
+        "tags": [
+          "Notices"
+        ],
+        "summary": "Receive ads by category",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "description": "Сategory \"sell\" or \"lost-found\" or \"for-free\"",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "sell"
+            }
+          }
+        ],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "OK \"Successful operation\"",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NoticeResponses"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notices/{noticeId}": {
+      "get": {
+        "tags": [
+          "Notices"
+        ],
+        "summary": "Receive one ad by id",
+        "parameters": [
+          {
+            "name": "noticeId",
+            "in": "path",
+            "description": "notice id string",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "OK \"Successful operation\"",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NoticeResponses"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "404",
+                  "type": "object",
+                  "example": {
+                    "message": "Not found!"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notices/selected": {
+      "get": {
+        "tags": [
+          "Notices"
+        ],
+        "summary": "Receive ads added to favorites",
+        "parameters": [],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK \"Successful operation\""
+          }
+        }
+      }
+    },
+    "/notices/selected/{noticeId}": {
+      "post": {
+        "tags": [
+          "Notices"
+        ],
+        "summary": "Add the ad to favorites",
+        "parameters": [
+          {
+            "name": "noticeId",
+            "in": "path",
+            "description": "notice id string",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK \"Successful operation\""
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Notices"
+        ],
+        "summary": "Delete the ad from favorites",
+        "parameters": [
+          {
+            "name": "noticeId",
+            "in": "path",
+            "description": "notice id string",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK \"Successful operation\""
+          }
+        }
+      }
+    },
+    "/notices/user": {
+      "get": {
+        "tags": [
+          "Notices"
+        ],
+        "summary": "Receive all users ads",
+        "parameters": [],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK \"Successful operation\"",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NoticeResponses"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Notices"
+        ],
+        "summary": "Add ads to a category",
+        "parameters": [],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "User object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NoticeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK \"Successful operation\"",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NoticeResponses"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notices/user/{noticeId}": {
+      "delete": {
+        "tags": [
+          "Notices"
+        ],
+        "summary": "Delete the ad by id",
+        "parameters": [
+          {
+            "name": "noticeId",
+            "in": "path",
+            "description": "notice id string",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK \"Successful operation\""
+          }
+        }
+      }
+    },
+    "/pets": {
+      "post": {
+        "tags": [
+          "Pets"
+        ],
+        "summary": "Add user's pet",
+        "parameters": [],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePetRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created \"Successful operation\"",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "201",
+                  "type": "object",
+                  "properties": {
+                    "pet": {
+                      "type": "object",
+                      "example": {
+                        "_id": "petId",
+                        "name": "user's pet name",
+                        "date": "birthdate",
+                        "breed": "breed",
+                        "comments": "comments",
+                        "photoURL": "url to image"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pets/{petId}": {
+      "delete": {
+        "tags": [
+          "Pets"
+        ],
+        "summary": "Delete user's pet",
+        "parameters": [
+          {
+            "name": "petId",
+            "in": "path",
+            "description": "pet id string",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK \"Successful operation\"",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "200",
+                  "type": "object",
+                  "example": {
+                    "message": "pet was removed"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/servicesSidebar": {
+      "get": {
+        "tags": [
+          "Other"
+        ],
+        "summary": "Get contact information about services that provide services",
+        "parameters": [],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "OK \"Successful operation\" (array of objects)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "200",
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "example": "text title"
+                    },
+                    "url": {
+                      "example": "url to site"
+                    },
+                    "addressUrl": {
+                      "example": "url to maps"
+                    },
+                    "imageUrl": {
+                      "example": "url to image"
+                    },
+                    "address": {
+                      "example": "text address"
+                    },
+                    "workDays": {
+                      "example": [
+                        {
+                          "isOpen": false
+                        },
+                        {
+                          "isOpen": true,
+                          "from": "11:00",
+                          "to": "16:00"
+                        }
+                      ]
+                    },
+                    "phone": {
+                      "example": "phone number"
+                    },
+                    "email": {
+                      "example": "email"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/news": {
+      "get": {
+        "tags": [
+          "Other"
+        ],
+        "summary": "Get all news",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Search by title",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "OK \"Successful operation\" (array of objects)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "200",
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "example": "63f8635ce9466b36765fbf24"
+                    },
+                    "title": {
+                      "example": "text title"
+                    },
+                    "url": {
+                      "example": "url to news"
+                    },
+                    "description": {
+                      "example": "text body"
+                    },
+                    "date": {
+                      "example": "12.08.2022"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/userAndPets": {
+      "get": {
+        "tags": [
+          "Other"
+        ],
+        "summary": "Get personal information about the user, and information about the user's pets",
+        "parameters": [],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK \"Successful operation\" (object and array of objects)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "200",
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "example": {
+                        "email": "user email",
+                        "cityRegion": "address",
+                        "mobilePhone": "phone number",
+                        "birthdate": "birthdate",
+                        "photoURL": "url to image",
+                        "name": "user name"
+                      }
+                    },
+                    "pets": {
+                      "example": [
+                        {
+                          "_id": "petId",
+                          "date": "birthdate",
+                          "breed": "breed",
+                          "comments": "comments",
+                          "photoURL": "url to image",
+                          "name": "pet name"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/uploadAvatar": {
+      "post": {
+        "tags": [
+          "Other"
+        ],
+        "summary": "Upload a picture/photo/avatar and get a link to it",
+        "parameters": [],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "avatar": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK \"Successful operation\"",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "200",
+                  "type": "object",
+                  "properties": {
+                    "urlAvatar": {
+                      "type": "string",
+                      "description": "description",
+                      "example": "url"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SignupRequest": {
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's Name",
+            "example": "Petya"
+          },
+          "cityRegion": {
+            "type": "string",
+            "example": "Settlement"
+          },
+          "mobilePhone": {
+            "type": "string",
+            "example": "+380991234567"
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          }
+        }
+      },
+      "SignupAndLoginResponses": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "example": {
+              "email": "user@email.com",
+              "name": "user's Name",
+              "cityRegion": "address",
+              "mobilePhone": "+380881234567",
+              "accessToken": "token"
+            }
+          }
+        }
+      },
+      "UserEditRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Petly"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "birthdate": {
+            "type": "string",
+            "description": "date",
+            "example": "12.08.2022"
+          },
+          "mobilePhone": {
+            "type": "string",
+            "example": "+380991234567"
+          },
+          "cityRegion": {
+            "type": "string",
+            "example": "address"
+          },
+          "photoURL": {
+            "type": "string",
+            "example": "url photo"
+          }
+        }
+      },
+      "CreatePetRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Petly"
+          },
+          "date": {
+            "type": "string",
+            "description": "date",
+            "example": "12.08.2022"
+          },
+          "breed": {
+            "type": "string",
+            "example": "husky"
+          },
+          "comments": {
+            "type": "string",
+            "example": "good dog"
+          },
+          "photoURL": {
+            "type": "string"
+          }
+        }
+      },
+      "NoticeResponses": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Notice`s id",
+            "example": "63f8635ce9466b36765fbf24"
+          },
+          "category": {
+            "type": "string",
+            "description": "type of category",
+            "example": "sell"
+          },
+          "title": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "example": "pet's name"
+          },
+          "birthdate": {
+            "type": "string",
+            "description": "date",
+            "example": "12.08.2022"
+          },
+          "breed": {
+            "type": "string"
+          },
+          "sex": {
+            "type": "string",
+            "description": "male or female",
+            "example": "male"
+          },
+          "location": {
+            "type": "string",
+            "example": "address"
+          },
+          "comments": {
+            "type": "string"
+          },
+          "price": {
+            "type": "string",
+            "example": 100
+          },
+          "imageURL": {
+            "type": "string",
+            "example": "url photo"
+          }
+        }
+      },
+      "NoticeRequest": {
+        "type": "object",
+        "required": [
+          "category",
+          "sex"
+        ],
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "type of category",
+            "example": "sell"
+          },
+          "title": {
+            "type": "string",
+            "example": "Notice's title"
+          },
+          "name": {
+            "type": "string",
+            "example": "pet's Name"
+          },
+          "birthdate": {
+            "type": "string",
+            "description": "birthdate",
+            "example": "12.08.2022"
+          },
+          "breed": {
+            "type": "string",
+            "example": "husky"
+          },
+          "sex": {
+            "type": "string",
+            "description": "male or female",
+            "example": "male"
+          },
+          "location": {
+            "type": "string",
+            "example": "address"
+          },
+          "comments": {
+            "type": "string",
+            "example": "text comments"
+          },
+          "price": {
+            "type": "string",
+            "example": 100
+          },
+          "imageURL": {
+            "type": "string",
+            "example": "url photo"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
