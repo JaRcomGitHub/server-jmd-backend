@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
 const app = require("./app");
-const { appOnline } = require("./app-online");
+const { WS_URL_PORT } = process.env;
+const { wsClientListen } = require("./ws-client");
 
 mongoose.set("strictQuery", false);
 
@@ -11,7 +12,7 @@ const PORT = process.env.PORT || 3000;
 
 async function server() {
   try {
-    appOnline();
+    wsClientListen(WS_URL_PORT);
     await mongoose.connect(MONGODB_URI);
     console.log("Database connection successful");
     app.listen(PORT, (err) => {
