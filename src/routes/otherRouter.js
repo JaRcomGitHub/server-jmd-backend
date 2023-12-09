@@ -30,8 +30,8 @@ router.get("/msgs", asyncHandler(msgs));
 
 module.exports = router;
 
-// const devices = require("../temp-data.json");
-const { devices } = require("../app-online");
+// const devices = require("../devices-data.json");
+const { devices } = require("../ws-client");
 
 async function ppk(req, res) {
   const ppkAll = [];
