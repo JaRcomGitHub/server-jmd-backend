@@ -4,9 +4,9 @@ const { readFileSync } = require("fs");
 const path = require("path");
 
 //s. если запускать файл сам по себе
-const dotenv = require("dotenv");
-dotenv.config();
-const { WS_URL_PORT } = process.env;
+// const dotenv = require("dotenv");
+// dotenv.config();
+// const { WS_URL_PORT } = process.env;
 //e. если запускать файл сам по себе
 
 const DEVICES_FILE = "devices-data.json";
@@ -28,8 +28,8 @@ function wsClientListen(ws_port) {
   }, 10000); // every 10 sec check connect ws and try reconnect to ws
 }
 
-wsClientListen(WS_URL_PORT); // если запускать файл сам по себе
-// module.exports = { wsClientListen, devices }; // если в связке
+// wsClientListen(WS_URL_PORT); // если запускать файл сам по себе
+module.exports = { wsClientListen, devices }; // если в связке
 
 function loadFromFile() {
   const fileName = path.resolve(__dirname, ".", DEVICES_FILE);
