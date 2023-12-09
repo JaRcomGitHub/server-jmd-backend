@@ -35,9 +35,10 @@ const { devices } = require("../ws-client");
 
 async function ppk(req, res) {
   const ppkAll = [];
+  console.log(devices);
   for (var ppk in devices) {
     ppkAll.push(ppk);
-    // console.log(ppk);
+    console.log(ppk);
   }
 
   return res.status(200).json(ppkAll);

@@ -10,11 +10,10 @@ const path = require("path");
 //e. если запускать файл сам по себе
 
 const DEVICES_FILE = "devices-data.json";
-let devices = {};
+// const devices = {};
+const devices = require("./devices-data.json");
 
 function wsClientListen(ws_port) {
-  loadFromFile();
-
   let ws = connectToWebSocket(ws_port);
 
   setInterval(() => {
@@ -31,17 +30,17 @@ function wsClientListen(ws_port) {
 // wsClientListen(WS_URL_PORT); // если запускать файл сам по себе
 module.exports = { wsClientListen, devices }; // если в связке
 
-function loadFromFile() {
-  const fileName = path.resolve(__dirname, ".", DEVICES_FILE);
-  const data = readFileSync(fileName, {
-    encoding: "utf8",
-    flag: "r",
-  });
-  devices = JSON.parse(data);
-  // console.log(data);
-  // dataWorking(devices);
-  // console.log("loadFromFile END");
-}
+// function loadFromFile() {
+//   const fileName = path.resolve(__dirname, ".", DEVICES_FILE);
+//   const data = readFileSync(fileName, {
+//     encoding: "utf8",
+//     flag: "r",
+//   });
+//   devices = JSON.parse(data);
+//   // console.log(data);
+//   console.log(devices);
+//   console.log("loadFromFile END");
+// }
 
 let status_ws = null;
 function connectToWebSocket(ws_port) {
