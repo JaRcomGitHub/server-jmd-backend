@@ -1,6 +1,5 @@
 const WebSocket = require("ws");
 const fs = require("fs/promises");
-const { readFileSync } = require("fs");
 const path = require("path");
 
 //s. если запускать файл сам по себе
@@ -9,9 +8,11 @@ const path = require("path");
 // const { WS_URL_PORT } = process.env;
 //e. если запускать файл сам по себе
 
-const DEVICES_FILE = "devices-data.json";
-// const devices = {};
-const devices = require("./devices-data.json");
+// const DEVICES_FILE = "devices-data.json";
+// const devices = require("./devices-data.json");
+const DIRECTORY_PATH_TO_FILES = "../../logs_ppk/";
+const DEVICES_FILE = "devices-buf-data.json";
+const devices = require(DIRECTORY_PATH_TO_FILES + DEVICES_FILE);
 
 function wsClientListen(ws_port) {
   let ws = connectToWebSocket(ws_port);
@@ -23,24 +24,12 @@ function wsClientListen(ws_port) {
       ws = connectToWebSocket();
     }
     // console.log(devices);
-    dataWorking(devices);
+    //dataWorking(devices);
   }, 10000); // every 10 sec check connect ws and try reconnect to ws
 }
 
 // wsClientListen(WS_URL_PORT); // если запускать файл сам по себе
 module.exports = { wsClientListen, devices }; // если в связке
-
-// function loadFromFile() {
-//   const fileName = path.resolve(__dirname, ".", DEVICES_FILE);
-//   const data = readFileSync(fileName, {
-//     encoding: "utf8",
-//     flag: "r",
-//   });
-//   devices = JSON.parse(data);
-//   // console.log(data);
-//   console.log(devices);
-//   console.log("loadFromFile END");
-// }
 
 let status_ws = null;
 function connectToWebSocket(ws_port) {
@@ -157,13 +146,12 @@ function addDataToDevice(data) {
   }
 }
 
-async function dataWorking(obj) {
-  // console.log("dataWorking");
-  const dataFile = path.resolve(__dirname, ".", DEVICES_FILE);
-  const content = JSON.stringify(obj, null, " ");
-  try {
-    await fs.writeFile(dataFile, content + "\n");
-  } catch (err) {
-    console.log(err);
-  }
-}
+// async function dataWorking(obj) {
+//   const dataFile = path.resolve(__dirname, ".", DEVICES_FILE);
+//   const content = JSON.stringify(obj, null, " ");
+//   try {
+//     await fs.writeFile(dataFile, content + "\n");
+//   } catch (err) {
+//     console.log(err);
+//   }
+// }

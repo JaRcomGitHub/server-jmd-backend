@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
-const { WS_URL_PORT } = process.env;
+// const { WS_URL_PORT } = process.env;
 const app = require("./src/app");
-const { wsClientListen } = require("./src/ws-client");
+// const { wsClientListen } = require("./src/ws-client");
 
 mongoose.set("strictQuery", false);
 
@@ -14,7 +14,7 @@ async function server() {
   const date = new Date();
   console.log(date);
   try {
-    wsClientListen(WS_URL_PORT);
+    // wsClientListen(WS_URL_PORT);
     await mongoose.connect(MONGODB_URI);
     console.log("Database connection successful 123");
     app.listen(PORT, (err) => {
