@@ -8,8 +8,6 @@ const path = require("path");
 // const { WS_URL_PORT } = process.env;
 //e. если запускать файл сам по себе
 
-// const DEVICES_FILE = "devices-data.json";
-// const devices = require("./devices-data.json");
 const DIRECTORY_PATH_TO_FILES = "../../logs_ppk/";
 const DEVICES_FILE = "devices-buf-data.json";
 const devices = require(DIRECTORY_PATH_TO_FILES + DEVICES_FILE);
@@ -24,7 +22,6 @@ function wsClientListen(ws_port) {
       ws = connectToWebSocket();
     }
     // console.log(devices);
-    //dataWorking(devices);
   }, 10000); // every 10 sec check connect ws and try reconnect to ws
 }
 
@@ -52,7 +49,6 @@ function connectToWebSocket(ws_port) {
   };
 
   ws.onmessage = (e) => {
-    dataAddToLogFile(e.data);
     // console.log("ws: " + e.data);
     const values = strParseJson(e.data);
     // console.log(values);
@@ -62,26 +58,8 @@ function connectToWebSocket(ws_port) {
   return ws;
 }
 
-async function dataAddToLogFile(content) {
-  const filename = getCurrentDate() + ".log";
-  const logFile = path.resolve(__dirname, "../logs", filename);
-  try {
-    await fs.appendFile(logFile, content + "\n");
-  } catch (err) {
-    console.log(err);
-  }
-}
-
-function getCurrentDate() {
-  return new Date()
-    .toISOString()
-    .replace("-", "")
-    .replace("-", "")
-    .replace(/\T.+/, "");
-}
-
 async function consoleLogToFile(content) {
-  const filename = "console.log";
+  const filename = "ws-console.log";
   const logFile = path.resolve(__dirname, "logs", filename);
   try {
     await fs.appendFile(logFile, content + "\n");
@@ -145,13 +123,3 @@ function addDataToDevice(data) {
     devices[ppk] = { ...devices[ppk], ...d };
   }
 }
-
-// async function dataWorking(obj) {
-//   const dataFile = path.resolve(__dirname, ".", DEVICES_FILE);
-//   const content = JSON.stringify(obj, null, " ");
-//   try {
-//     await fs.writeFile(dataFile, content + "\n");
-//   } catch (err) {
-//     console.log(err);
-//   }
-// }
