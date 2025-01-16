@@ -6,7 +6,8 @@
     "start": "cross-env NODE_ENV=production node ./src/server.js",
     "start:dev": "cross-env NODE_ENV=development nodemon ./src/server.js",
     "lint": "eslint **/*.js",
-    "lint:fix": "eslint --fix **/*.js"
+    "lint:fix": "eslint --fix **/*.js",
+    "pm2": "pm2 start ./src/server.js"
   },
   "dependencies": {
     "@joi/date": "^2.1.0",
